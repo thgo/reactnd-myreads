@@ -1,3 +1,8 @@
+html,
+body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -9,6 +14,8 @@ body {
   background-color: #eee !important;
   background-image: url('./content/images/background.jpg') !important;
   background-attachment: fixed;
+  background-size: cover;
+  background-blend-mode: luminosity;
 }
 
 code {

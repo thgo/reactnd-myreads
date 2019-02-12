@@ -4,10 +4,8 @@ import {
   CardDeck,
   Card,
   Row,
-  Col,
-  Image
+  Col
 } from 'react-bootstrap'
-import * as BooksAPI from '../api/BooksAPI'
 
 class ListBooks extends Component {
 
@@ -15,24 +13,14 @@ class ListBooks extends Component {
     books: []
   }
 
-  componentDidMount() {
-    BooksAPI.getAll()
-    .then((res) => {
-      this.setState((prevState) => ({
-        books: res
-      }))
-    })
-  }
-
   render() {
 
-    const { books } = this.state
+    const { books } = this.props
 
     return (
       <Container style={{marginTop: '2em'}}>
         <Row>
           <CardDeck>
-
             {books && books.map(book => (
               <Col xs={1} md={4} xl={4} style={{marginBottom: '2em'}} key={book.id}>
                 <Card>
