@@ -3,17 +3,26 @@ import { Container, Row, Col, Form, FormControl, InputGroup, Button, Alert } fro
 import ListBooks from "./ListBooks";
 import * as BooksAPI from '../api/BooksAPI'
 import ReactLoading from 'react-loading'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Link } from 'react-router-dom'
 
 class Search extends Component {
 
   constructor (props) {
     super(props)
+
     this.state = {
       books: [],
       isLoading: false,
       error: false,
       errorMessage: '',
       query: props.searchText && props.searchText !== '' ? props.searchText : ''
+    }
+
+    this.filterBooks = this.filterBooks.bind(this)
+
+    if (this.state.query !== '') {
+      this.filterBooks(this.state.query)
     }
   }
 
@@ -25,7 +34,7 @@ class Search extends Component {
 
   }
 
-  filterBooks = event => {
+  filterBtnBooks = event => {
     event.preventDefault()
 
     const { query } = this.state
@@ -34,6 +43,10 @@ class Search extends Component {
       isLoading: true
     })
 
+    this.filterBooks(query)
+  }
+
+  filterBooks = query => {
     BooksAPI.search(query)
     .then((res) => {
       console.log(res)
@@ -54,8 +67,13 @@ class Search extends Component {
       <Container>
         <Row>
           <Col md={{ span: 8, offset: 2 }}>
-            <Form onSubmit={this.filterBooks}>
+            <Form onSubmit={this.filterBtnBooks}>
               <InputGroup className="mb-3">
+                <InputGroup.Append>
+                  <Link to="/" style={{marginRight: '0.5em'}}>
+                    <FontAwesomeIcon icon="arrow-alt-circle-left" size="2x" color="white"/>
+                  </Link>
+                </InputGroup.Append>
                 <FormControl
                   placeholder="Enter Search"
                   aria-label="Search"

@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import './App.css';
 import { Route } from 'react-router-dom'
 import Header from './components/Header'
 import Main from './components/Main'
 import Search from './components/Search'
+
+library.add(faArrowAltCircleLeft)
 
 class App extends Component {
 
