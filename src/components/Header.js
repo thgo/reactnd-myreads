@@ -30,9 +30,7 @@ class Header extends Component {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link href="#currentlyReading">Currently Reading</Nav.Link>
-              <Nav.Link href="#wantToRead">Want to Read</Nav.Link>
-              <Nav.Link href="#wantToRead">Read</Nav.Link>
+
             </Nav>
             <Form inline>
               <FormControl type="text" placeholder="Search" className="mr-sm-2" value={searchText} onChange={this.onChangeText} />
