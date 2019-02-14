@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
-import './App.css';
+import { faArrowAltCircleLeft, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
+import './App.css'
 import { Route } from 'react-router-dom'
-import Header from './components/Header'
-import Main from './components/Main'
-import Search from './components/Search'
+import Header from './components/header/Header'
+import Main from './components/main/Main'
+import Search from './components/search/Search'
+import BookDetails from './components/book/BookDetails'
 
-library.add(faArrowAltCircleLeft)
+library.add(faArrowAltCircleLeft, faCheckCircle)
 
 class App extends Component {
 
@@ -32,6 +33,7 @@ class App extends Component {
           handleSearchText={this.handleSearchText}
           render={() => <Search searchText={searchText} handleSearchText={this.handleSearchText} />}
         />
+        <Route path='/book/:id' component={BookDetails} />
       </div>
     )
   }

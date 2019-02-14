@@ -1,6 +1,6 @@
 import React from "react"
 import { Col, Card } from "react-bootstrap"
-import ListBooks from "./ListBooks"
+import ListBooks from "./book/ListBooks"
 
 const Shelf = props => {
   return (
