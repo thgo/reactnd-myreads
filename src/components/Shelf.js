@@ -1,20 +1,22 @@
 import React from "react"
-import { Col, Card } from "react-bootstrap"
 import ListBooks from "./book/ListBooks"
+import { Grid, Card } from "semantic-ui-react";
 
 const Shelf = props => {
   return (
-    <Col xs={12} md={12} xl={12}>
-      <Card
-        className="text-center"
-        style={{ marginBottom: "2em" }}
-      >
-        <Card.Header as="h5">{props.title}</Card.Header>
-        <Card.Body>
-          <ListBooks books={props.books} />
-        </Card.Body>
-      </Card>
-    </Col>
+    <Grid columns={3}>
+      <Grid.Column>
+        <Card
+          className="text-center"
+          style={{ marginBottom: "2em" }}
+        >
+          <Card.Content>
+            <Card.Header as="h5">{props.title}</Card.Header>
+            <ListBooks books={props.books} />
+          </Card.Content>
+        </Card>
+      </Grid.Column>
+    </Grid>
   )
 }
 

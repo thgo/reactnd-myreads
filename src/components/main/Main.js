@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import {
-  Container,
-  Row} from 'react-bootstrap';
+import { Container, Grid } from 'semantic-ui-react';
 import * as BooksAPI from '../../api/BooksAPI'
 import Shelf from '../Shelf';
 
@@ -60,12 +58,12 @@ class Main extends Component {
 
     return (
       <Container>
-        <Row>
+        <Grid.Row>
           { shelfs.length && shelfs.map(shelf => (
             <Shelf key={shelf.id} books={this.state[shelf.name]} title={shelf.title} />
           )) }
 
-        </Row>
+        </Grid.Row>
       </Container>
     )
   }

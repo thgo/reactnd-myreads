@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
-import {
-  CardDeck,
-  Col
-} from 'react-bootstrap'
 import BookCard from './BookCard';
+import { Card } from 'semantic-ui-react';
 
 class ListBooks extends Component {
 
@@ -16,13 +13,11 @@ class ListBooks extends Component {
     const { books } = this.props
 
     return (
-      <CardDeck>
+      <Card.Group>
         {books && books.map(book => (
-          <Col xs={1} md={4} xl={4} style={{marginBottom: '2em'}} key={book.id}>
-            <BookCard book={book} />
-          </Col>
+          <BookCard key={book.id} book={book} />
         ))}
-      </CardDeck>
+      </Card.Group>
     )
 
   }

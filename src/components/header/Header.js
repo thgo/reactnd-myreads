@@ -1,12 +1,6 @@
 import React, { Component } from 'react'
-import {
-  Navbar,
-  Nav,
-  Form,
-  FormControl,
-  Container
-} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { Menu, Container, Button, Icon } from 'semantic-ui-react';
 
 class Header extends Component {
 
@@ -20,25 +14,17 @@ class Header extends Component {
     const { searchText } = this.props
 
     return (
-      <Container fluid style={{marginBottom: '2em', paddingLeft: '0', paddingRight: '0'}}>
-        <Navbar bg="dark" expand="lg" variant="dark" className='sticky-top'>
-          <Navbar.Brand>
-            <Link to="/">
-              My Reads
-            </Link>
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
 
-            </Nav>
-            <Form inline>
-              <FormControl type="text" placeholder="Search" className="mr-sm-2" value={searchText} onChange={this.onChangeText} />
-              <Link to="/search" className="btn btn-outline-info">Search</Link>
-            </Form>
-          </Navbar.Collapse>
-        </Navbar>
-      </Container>
+      <Menu fixed='top' inverted>
+        <Container>
+          <Menu.Item as='a' header>
+            <Link to="/">My Reads</Link>
+          </Menu.Item>
+          <Menu.Item position='right'>
+              <Link to="/search">Search</Link>
+          </Menu.Item>
+        </Container>
+      </Menu>
     )
   }
 }
