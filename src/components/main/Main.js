@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Container, Grid } from 'semantic-ui-react';
 import * as BooksAPI from '../../api/BooksAPI'
 import Shelf from '../Shelf';
 
@@ -30,6 +29,11 @@ class Main extends Component {
         name: 'read',
         title: 'Read'
       },
+      {
+        id: 4,
+        name: 'none',
+        title: 'None'
+      }
     ]
   }
 
@@ -57,14 +61,12 @@ class Main extends Component {
     const shelfs = this.getShelfs()
 
     return (
-      <Container>
-        <Grid.Row>
-          { shelfs.length && shelfs.map(shelf => (
-            <Shelf key={shelf.id} books={this.state[shelf.name]} title={shelf.title} />
-          )) }
-
-        </Grid.Row>
-      </Container>
+      <div>
+        { shelfs.length && shelfs.map(shelf => (
+            <Shelf key={shelf.id} books={this.state[shelf.name]} title={shelf.title} shelfs={shelfs} />
+          ))
+        }
+      </div>
     )
   }
 }

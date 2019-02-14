@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import { Container, Row, Col, Form, FormControl, InputGroup, Button, Alert } from "react-bootstrap";
+import { Form, Input, Icon, Message } from "semantic-ui-react";
 import ListBooks from "../book/ListBooks";
 import * as BooksAPI from '../../api/BooksAPI'
-import ReactLoading from 'react-loading'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
 
 class Search extends Component {
@@ -64,36 +62,30 @@ class Search extends Component {
     const { books, isLoading } = this.state
 
     return (
-      <Container>
-        <Row>
-          <Col md={{ span: 8, offset: 2 }}>
-            <Form onSubmit={this.filterBtnBooks}>
-              <InputGroup className="mb-3">
-                <InputGroup.Append>
-                  <Link to="/" style={{marginRight: '0.5em'}}>
-                    <FontAwesomeIcon icon="arrow-alt-circle-left" size="2x" color="white"/>
-                  </Link>
-                </InputGroup.Append>
-                <FormControl
-                  placeholder="Enter Search"
-                  aria-label="Search"
-                  aria-describedby="basic-addon2"
-                  value={searchText}
-                  onChange={this.onChangeText}
-                />
-                <InputGroup.Append>
-                  <Button variant="primary" type='submit' disabled={searchText === ''}>Search</Button>
-                </InputGroup.Append>
-              </InputGroup>
-            </Form>
-          </Col>
-        </Row>
-        <Row>
-          {!isLoading ? ((searchText !== '' && books) && <ListBooks books={books} />) : <ReactLoading type={'spinningBubbles'} />}
-          { this.state.error && <Alert variant='danger'>Nenhum item encontrado</Alert>}
-        </Row>
-      </Container>
-    );
+      <div>
+        <Form loading={isLoading} onSubmit={this.filterBtnBooks} style={{width: '100%'}}>
+          <Form.Group>
+            <Input
+              placeholder='Enter search...'
+              name='search'
+              value={searchText}
+              onChange={this.onChangeText}
+              icon={<Icon name='search' inverted circular link />}
+              style={{width: '100%'}}
+            />
+          </Form.Group>
+          <Message
+            error
+            header='Erro ao pesquisar'
+            content='Nenhum item encontrado'
+          />
+
+          <Link to="/"> Voltar </Link>
+        </Form>
+
+        <ListBooks books={books} />
+      </div>
+    )
   }
 }
 

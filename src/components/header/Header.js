@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Menu, Container, Button, Icon } from 'semantic-ui-react';
+import { Menu, Container, Input } from 'semantic-ui-react';
 
 class Header extends Component {
 
@@ -14,15 +14,18 @@ class Header extends Component {
     const { searchText } = this.props
 
     return (
-
       <Menu fixed='top' inverted>
         <Container>
-          <Menu.Item as='a' header>
-            <Link to="/">My Reads</Link>
+          <Menu.Item header >
+            My Reads
           </Menu.Item>
-          <Menu.Item position='right'>
-              <Link to="/search">Search</Link>
-          </Menu.Item>
+          <Menu.Item as={Link} content="Home" to="/" header />
+          <Menu.Menu position='right'>
+            <Menu.Item header>
+              <Input icon='search' placeholder='Search...' onChange={this.onChangeText} value={searchText} />
+            </Menu.Item>
+            <Menu.Item as={Link} content="Search" to="/search" header />
+          </Menu.Menu>
         </Container>
       </Menu>
     )

@@ -1,12 +1,13 @@
 import React from "react"
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Card, Image, Button } from "semantic-ui-react";
+import { Card, Image } from "semantic-ui-react";
+import Options from '../options/Options'
 
 const BookCard = props => {
   return (
-    <Card className="text-center" style={{display: 'flex', height: '380px'}}>
-      <Image src={props.book.imageLinks.smallThumbnail} />
+    <Card className="text-center" style={{height: '380px'}}>
+      <Image src={props.book.imageLinks.smallThumbnail} style={{width: '50%', margin: '0 auto', height: '200px'}} />
       <Card.Content>
         <Card.Header>{props.book.title}</Card.Header>
         <Card.Meta>
@@ -16,10 +17,10 @@ const BookCard = props => {
       <Card.Content extra>
         <Link
           to={`/book/${props.book.id}`}
-          params={{...props.book}}
-          className="btn btn-outline-info"
-        >Details</Link>&nbsp;
-        <Button primary>...</Button>
+          className="btn btn-outline-info">
+            Details
+        </Link>&nbsp;
+        <Options shelf={props.book.shelf} shelfs={props.shelfs} />
       </Card.Content>
     </Card>
   )

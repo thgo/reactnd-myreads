@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Header, Container, Image } from 'semantic-ui-react';
 import * as BooksAPI from '../../api/BooksAPI'
-import ReactLoading from 'react-loading'
 import { Link } from 'react-router-dom'
 
 class BookDetails extends Component {
@@ -13,6 +11,7 @@ class BookDetails extends Component {
   }
 
   componentDidMount() {
+    console.log('componentDidMount BookDetails')
     this.setState({ isLoading: true })
     this.loadBookById()
   }
@@ -21,6 +20,7 @@ class BookDetails extends Component {
     const { id } = this.props.match.params
     BooksAPI.get(id)
     .then((res) => {
+      console.log('res: ' + res)
       this.setState({
         book: res,
         isLoading: false
@@ -29,48 +29,29 @@ class BookDetails extends Component {
   }
 
   render () {
-
-    const { book, isLoading } = this.state
+    const { book } = this.state
 
     return (
-      <Container>
-        <Row>
-          <Col xs={12}>
-           {isLoading ?
-            <div style={{margin: '0 auto'}}><ReactLoading type={'spinningBubbles'} /></div>
-            :
-            <Card className="text-justify">
-              <Card.Header>
-                <Card.Title>{book.title}</Card.Title>
-              </Card.Header>
-              <Card.Body>
+      <div>
+        <Header as='h2' icon textAlign='center'>
+          <Image src={book.imageLinks.smallThumbnail} size="small" circular />
+          <Header.Content>{book.title}</Header.Content>
+        </Header>
+        <Container text>
+          <div>
+            <p>{book.description}</p>
+            <p><strong>Publish date:</strong> {book.publishedDate}</p>
+            <p><strong>Author(s):</strong> {book.authors && book.authors.join(', ')}</p>
+            <p><strong>Page number:</strong> {book.pageCount}</p>
+          </div>
 
-                <Card.Subtitle className="mb-2 text-muted">{book.subtitle}</Card.Subtitle>
-                <Card.Text>
-                  <div>
-                    <p>{book.description}</p>
-                    <p><strong>Publish date:</strong> {book.publishedDate}</p>
-                    <p><strong>Author(s):</strong> {book.authors && book.authors.join(', ')}</p>
-                    <p><strong>Page number:</strong> {book.pageCount}</p>
-                  </div>
-                </Card.Text>
-              </Card.Body>
-              <Card.Footer>
-                <Link to="/" className="btn btn-outline-info" style={{float: 'right'}}>Back</Link>
-              </Card.Footer>
-            </Card>
-          }
-          </Col>
-        </Row>
-      </Container>
+          <Link to="/" className="ui button primary" style={{float: 'right'}}>Back</Link>
+        </Container>
+      </div>
     )
 
   }
 
-}
-
-BookDetails.propTypes = {
-  //book: PropTypes.object.isRequired
 }
 
 export default BookDetails
