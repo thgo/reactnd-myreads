@@ -40,12 +40,26 @@ class Main extends Component {
   componentDidMount() {
     BooksAPI.getAll()
     .then((res) => {
-      this.setState({
-        books: res,
-        currentlyReading: this.filterShelf(res, 'currentlyReading'),
-        wantToRead: this.filterShelf(res, 'wantToRead'),
-        read: this.filterShelf(res, 'read')
+      this.updateState(res)
+    })
+  }
+
+  updateBookShelf = (book, newShelf) => {
+    BooksAPI.update(book, newShelf)
+    .then(res => {
+      BooksAPI.getAll()
+      .then(res => {
+        this.updateState(res)
       })
+    })
+  }
+
+  updateState(books) {
+    this.setState({
+      books,
+      currentlyReading: this.filterShelf(books, 'currentlyReading'),
+      wantToRead: this.filterShelf(books, 'wantToRead'),
+      read: this.filterShelf(books, 'read')
     })
   }
 
@@ -63,7 +77,12 @@ class Main extends Component {
     return (
       <div>
         { shelfs.length && shelfs.map(shelf => (
-            <Shelf key={shelf.id} books={this.state[shelf.name]} title={shelf.title} shelfs={shelfs} />
+            <Shelf
+              key={shelf.id}
+              books={this.state[shelf.name]}
+              title={shelf.title}
+              shelfs={shelfs}
+              handleChangeShelf={this.updateBookShelf} />
           ))
         }
       </div>

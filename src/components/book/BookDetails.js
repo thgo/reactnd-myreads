@@ -1,23 +1,21 @@
 import React, { Component } from 'react'
-import { Header, Container, Image } from 'semantic-ui-react';
+import { Card, Header, Container, Image } from 'semantic-ui-react';
 import * as BooksAPI from '../../api/BooksAPI'
 import { Link } from 'react-router-dom'
 
 class BookDetails extends Component {
 
   state = {
-    book: {},
+    book: undefined,
     isLoading: false
   }
 
   componentDidMount() {
     console.log('componentDidMount BookDetails')
     this.setState({ isLoading: true })
-    this.loadBookById()
-  }
 
-  loadBookById = () => {
     const { id } = this.props.match.params
+
     BooksAPI.get(id)
     .then((res) => {
       console.log('res: ' + res)
@@ -31,25 +29,29 @@ class BookDetails extends Component {
   render () {
     const { book } = this.state
 
+    //TODO: refact this and discover the error and why book is undefined in the first component call
+    if (!book) return <div>TESTE</div>
+
     return (
-      <div>
-        <Header as='h2' icon textAlign='center'>
-          <Image src={book.imageLinks.smallThumbnail} size="small" circular />
-          <Header.Content>{book.title}</Header.Content>
-        </Header>
-        <Container text>
-          <div>
-            <p>{book.description}</p>
-            <p><strong>Publish date:</strong> {book.publishedDate}</p>
-            <p><strong>Author(s):</strong> {book.authors && book.authors.join(', ')}</p>
-            <p><strong>Page number:</strong> {book.pageCount}</p>
-          </div>
+      <Card fluid>
+        <Card.Content textAlign='center'>
+          <Image src={book.imageLinks.thumbnail} size='small' rounded />
+          <Header as='h2' icon textAlign='center'>
+            <Header.Content>{book.title}</Header.Content>
+          </Header>
+          <Container text textAlign='justified'>
+            <div>
+              <p>{book.description}</p>
+              <p><strong>Publish date:</strong> {book.publishedDate}</p>
+              <p><strong>Author(s):</strong> {book.authors && book.authors.join(', ')}</p>
+              <p><strong>Page number:</strong> {book.pageCount}</p>
+            </div>
 
-          <Link to="/" className="ui button primary" style={{float: 'right'}}>Back</Link>
-        </Container>
-      </div>
+            <Link to="/" className="ui button primary" style={{float: 'right'}}>Back</Link>
+          </Container>
+        </Card.Content>
+      </Card>
     )
-
   }
 
 }

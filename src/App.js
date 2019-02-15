@@ -29,10 +29,9 @@ class App extends Component {
         <Container style={{ marginTop: '7em' }} textAlign='center'>
           <Route exact path='/' component={Main} searchText={''} />
           <Route path='/search'
-            handleSearchText={this.handleSearchText}
             render={() => <Search searchText={searchText} handleSearchText={this.handleSearchText} />}
           />
-          <Route path='/book/:id' render={() => <BookDetails />} />
+          <Route path='/book/:id' component={BookDetails} />
         </Container>
       </div>
     )
