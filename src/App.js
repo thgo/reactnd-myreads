@@ -7,29 +7,31 @@ import Main from './components/main/Main'
 import Search from './components/search/Search'
 import BookDetails from './components/book/BookDetails'
 
+
 class App extends Component {
 
   state = {
-    searchText: ''
+    isLoadingApp: true
   }
 
-  handleSearchText = text => {
-    this.setState({
-      searchText: text
-    })
+  componentWillMount() {
+    this.setState({ isLoadingApp: true })
+  }
+
+  componentDidMount() {
+    this.setState({ isLoadingApp: false })
   }
 
   render() {
-    const { searchText } = this.state
 
     return (
       <div>
-        <Header handleSearchText={this.handleSearchText} />
+        <Header />
 
         <Container style={{ marginTop: '7em' }} textAlign='center'>
-          <Route exact path='/' component={Main} searchText={''} />
+          <Route exact path='/' component={Main} handleLoadingApp={this.handleLoadingApp} />
           <Route path='/search'
-            render={() => <Search searchText={searchText} handleSearchText={this.handleSearchText} />}
+            render={() => <Search handleSearchText={this.handleSearchText} />}
           />
           <Route path='/book/:id' component={BookDetails} />
         </Container>

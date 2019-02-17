@@ -1,31 +1,20 @@
 import React, { Component } from "react";
-import { Form, Input, Icon, Message } from "semantic-ui-react";
+import { Form, Input, Icon, Message, Button, Container } from "semantic-ui-react";
 import ListBooks from "../book/ListBooks";
 import * as BooksAPI from '../../api/BooksAPI'
-import { Link } from 'react-router-dom'
+import BackButton from './BackButton'
 
 class Search extends Component {
 
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      books: [],
-      isLoading: false,
-      error: false,
-      errorMessage: '',
-      query: props.searchText && props.searchText !== '' ? props.searchText : ''
-    }
-
-    this.filterBooks = this.filterBooks.bind(this)
-
-    if (this.state.query !== '') {
-      this.filterBooks(this.state.query)
-    }
+  state = {
+    books: [],
+    isLoading: false,
+    error: false,
+    errorMessage: '',
+    query: ''
   }
 
   onChangeText = event => {
-    this.props.handleSearchText(event.target.value)
     this.setState({
       query: event.target.value
     })
@@ -45,6 +34,7 @@ class Search extends Component {
   }
 
   filterBooks = query => {
+    this.setState({ books: [], error: false })
     BooksAPI.search(query)
     .then((res) => {
       console.log(res)
@@ -54,37 +44,47 @@ class Search extends Component {
         isLoading: false
       })
     })
+    .catch((res) => this.setState({
+      isLoading: false,
+      error: true,
+      errorMessage: res
+    }))
+  }
+
+  isEmptySearch = () => {
+    return this.state.query === ''
   }
 
   render() {
 
-    const { searchText } = this.props
+    const { query } = this.props
     const { books, isLoading } = this.state
 
     return (
-      <div>
-        <Form loading={isLoading} onSubmit={this.filterBtnBooks} style={{width: '100%'}}>
+      <Container textAlign='left'>
+        <BackButton />
+
+        <Form autoComplete='off' error={this.state.error} loading={isLoading} onSubmit={this.filterBtnBooks} style={{width: '100%', marginTop: '2em'}}>
           <Form.Group>
             <Input
               placeholder='Enter search...'
               name='search'
-              value={searchText}
+              value={query}
               onChange={this.onChangeText}
-              icon={<Icon name='search' inverted circular link />}
+              icon={<Button disabled={this.isEmptySearch()}><Icon name='search' inverted circular link /></Button>}
               style={{width: '100%'}}
             />
           </Form.Group>
           <Message
             error
-            header='Erro ao pesquisar'
-            content='Nenhum item encontrado'
+            header='Search error'
+            content='No items found.'
           />
 
-          <Link to="/"> Voltar </Link>
         </Form>
 
-        <ListBooks books={books} />
-      </div>
+        {books && <ListBooks books={books} />}
+      </Container>
     )
   }
 }

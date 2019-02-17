@@ -1,12 +1,12 @@
 import React from "react"
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Card, Image } from "semantic-ui-react";
+import { Card, Image, Rating } from "semantic-ui-react";
 import Options from '../options/Options'
 
 const BookCard = props => {
 
-  const { book, shelfs, handleChangeShelf } = props
+  const { book, shelfs, handleChangeShelf, loading } = props
 
   const handleChangeShelfOptions = (book, newShelf) => {
     handleChangeShelf(book, newShelf)
@@ -21,13 +21,21 @@ const BookCard = props => {
           { <span className="small text-muted"> {book.authors ? book.authors.join(', ') : 'Author not informed'} </span> }
         </Card.Meta>
       </Card.Content>
+      <Card.Description>
+        <Rating icon='star' defaultRating={book.averageRating} maxRating={5} disabled />
+      </Card.Description>
       <Card.Content extra>
         <Link
           to={`/book/${book.id}`}
           className="btn btn-outline-info">
             Details
         </Link>&nbsp;
-        <Options shelf={book.shelf} shelfs={shelfs} book={book} handleChangeShelf={handleChangeShelfOptions} />
+        <Options
+          shelf={book.shelf}
+          shelfs={shelfs}
+          book={book}
+          loading={loading}
+          handleChangeShelf={handleChangeShelfOptions} />
       </Card.Content>
     </Card>
   )

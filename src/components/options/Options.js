@@ -1,9 +1,12 @@
 import React, { Component } from "react"
 import { Popup, Button } from "semantic-ui-react"
 import ButtonOption from './ButtonOption'
-import * as BooksAPI from '../../api/BooksAPI'
 
 class Options extends Component{
+
+  state = {
+    newShelf: ''
+  }
 
   handleButtonColor = thisShelf => {
     const { shelf } = this.props
@@ -17,12 +20,14 @@ class Options extends Component{
 
   handleChangeShelfButton = (book, newShelf) => {
     const { handleChangeShelf } = this.props
+    this.setState({ newShelf })
+
     handleChangeShelf(book, newShelf)
   }
 
   render() {
 
-    const { shelfs, book } = this.props
+    const { shelfs, book, loading } = this.props
 
     return (
       <Popup wide trigger={<Button primary icon='cog' />} on='click'>
@@ -33,6 +38,7 @@ class Options extends Component{
               disabled={this.handleDisableButton(s)}
               shelf={s}
               book={book}
+              loading={loading && s.name === this.state.newShelf}
               handleChangeShelf={this.handleChangeShelfButton}
             />
           ))}
