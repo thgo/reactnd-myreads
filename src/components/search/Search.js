@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Form, Input, Icon, Message, Button, Container } from "semantic-ui-react";
+import { Form, Message, Container } from "semantic-ui-react";
 import ListBooks from "../book/ListBooks";
 import * as BooksAPI from '../../api/BooksAPI'
 import BackButton from './BackButton'
+import { DebounceInput } from 'react-debounce-input';
 
 class Search extends Component {
 
@@ -16,9 +17,11 @@ class Search extends Component {
 
   onChangeText = event => {
     this.setState({
-      query: event.target.value
+      query: event.target.value,
+      isLoading: true
     })
 
+    this.filterBooks(this.state.query)
   }
 
   filterBtnBooks = event => {
@@ -33,7 +36,7 @@ class Search extends Component {
     this.filterBooks(query)
   }
 
-  filterBooks = query => {
+  filterBooks = (query) => {
     this.setState({ books: [], error: false })
     BooksAPI.search(query)
     .then((res) => {
@@ -57,7 +60,7 @@ class Search extends Component {
 
   render() {
 
-    const { query } = this.props
+    const { shelfs, loading, updateBookShelf } = this.props
     const { books, isLoading } = this.state
 
     return (
@@ -66,13 +69,13 @@ class Search extends Component {
 
         <Form autoComplete='off' error={this.state.error} loading={isLoading} onSubmit={this.filterBtnBooks} style={{width: '100%', marginTop: '2em'}}>
           <Form.Group>
-            <Input
-              placeholder='Enter search...'
-              name='search'
-              value={query}
-              onChange={this.onChangeText}
-              icon={<Button disabled={this.isEmptySearch()}><Icon name='search' inverted circular link /></Button>}
-              style={{width: '100%'}}
+            <DebounceInput
+                className='ui input'
+                placeholder="Enter search..."
+                onChange={this.onChangeText}
+                value={this.state.query}
+                minLength={1}
+                debounceTimeout={500}
             />
           </Form.Group>
           <Message
@@ -83,7 +86,13 @@ class Search extends Component {
 
         </Form>
 
-        {books && <ListBooks books={books} />}
+        {books &&
+          <ListBooks
+            books={books}
+            shelfs={shelfs}
+            loading={loading}
+            handleChangeShelf={updateBookShelf}/>
+        }
       </Container>
     )
   }

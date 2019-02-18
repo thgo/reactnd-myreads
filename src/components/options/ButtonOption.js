@@ -3,12 +3,12 @@ import { Button } from 'semantic-ui-react'
 
 const ButtonOption = props => {
 
-  const {shelf, color, disabled, book, loading } = props
+  const {shelf, color, disabled, book, loading, handleChangeShelf } = props
 
-  const handleChangeShelfButtonOption = (book, newShelf) => {
-    const { handleChangeShelf } = props
-    handleChangeShelf(book, newShelf)
-  }
+  // const handleChangeShelfButtonOption = (book, newShelf) => {
+  //   const { handleChangeShelf } = props
+  //   handleChangeShelf(book, newShelf)
+  // }
 
   return (
     <Button
@@ -18,7 +18,7 @@ const ButtonOption = props => {
       color={color}
       disabled={disabled}
       content={shelf.title}
-      onClick={(event) => handleChangeShelfButtonOption(book, shelf.name)}
+      onClick={(event) => handleChangeShelf(event, book, shelf.name)}
     />
   )
 }

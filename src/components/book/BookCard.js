@@ -12,9 +12,17 @@ const BookCard = props => {
     handleChangeShelf(book, newShelf)
   }
 
+  const getThumbnail = (book) => {
+    if (book && book.imageLinks && book.imageLinks.smallThumbnail) {
+      return book.imageLinks.smallThumbnail
+    } else {
+      return 'no-image.png'
+    }
+  }
+
   return (
     <Card className="text-center" style={{height: '380px'}}>
-      <Image src={book.imageLinks.smallThumbnail} style={{width: '50%', margin: '0 auto', height: '200px'}} />
+      <Image src={ getThumbnail(book) } style={{width: '50%', margin: '0 auto', height: '200px'}} />
       <Card.Content>
         <Card.Header>{book.title}</Card.Header>
         <Card.Meta>
@@ -31,7 +39,7 @@ const BookCard = props => {
             Details
         </Link>&nbsp;
         <Options
-          shelf={book.shelf}
+          shelf={ book.shelf ? book.shelf : 'none' }
           shelfs={shelfs}
           book={book}
           loading={loading}

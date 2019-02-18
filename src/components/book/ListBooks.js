@@ -4,12 +4,8 @@ import { Card } from 'semantic-ui-react';
 
 const ListBooks = props => {
 
-  const handleChangeShelf = (book, newShelf) => {
-    const { handleChangeShelf } = props
-    handleChangeShelf(book, newShelf)
-  }
+  const { books, shelfs, loading, handleChangeShelf } = props
 
-  const { books, shelfs, loading } = props
   return (
     <Card.Group centered>
       {books && books.map(book => (
