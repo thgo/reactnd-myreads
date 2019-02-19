@@ -1,68 +1,47 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# MyReads
+## Visão geral do projeto
+MyReads é o primeiro projeto do Nanodegree React Developer, da [Udacity][1]. O objetivo é desenvolver uma aplicação de estante de livros que permite selecionar e classificar os livros que você já leu, está lendo ou quer ler. O projeto enfatiza o uso de React para criar a aplicação e fornece um servidor de API e uma biblioteca cliente, que você usará para armazenar informações à medida que interage com a aplicação.
 
-In the project directory, you can run:
+Na aplicação, o usuário pode interagir com as estantes e os livros, podendo adicionar ou remover os livros das estantes , e também pesquisar novos livros para adicionar.
+Ao todo, são 3 estantes virtuais que estão disponívels:
 
-### `npm start`
+  * Currently Reading: Contém os livros que o usuário atualmente está lendo;
+  * Want to Read: Contém os livros que o usuário pretende ler no futuro;
+  * Read: Contém os livros que já foram lidos pelo usuário;
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## Instalação e execução
 
-### `npm test`
+Para instalar e executar, é necessário ter o `npm` ou `yarn` instalado na máquina.
+Caso não possua, baixe a seguir:
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  * npm: https://nodejs.org/en/download/
+  * yarn: https://yarnpkg.com/en/docs/install
 
-### `npm run build`
+Para baixar o projeto, seiga as instruções a seguir:
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+~~~
+git clone https://github.com/thgo/reactnd-myreads.git
+cd reactnd-myreads
+~~~
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+Para instalar as dependências e executar o projeto:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+~~~
+npm install
+npm start
+~~~
 
-### `npm run eject`
+ou
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+~~~
+yarn install
+yarn start
+~~~
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Autor
+Thiago Leonardo
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+[1]: https://www.udacity.com/

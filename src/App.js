@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import './App.css'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import { Container } from 'semantic-ui-react'
 import Header from './components/header/Header'
 import Main from './components/main/Main'
 import Search from './components/search/Search'
 import * as BooksAPI from './api/BooksAPI'
 import { shelfs } from './config/shelfs'
+import NotFound from './components/notfound/NotFound'
 
 /**
  * A fazer
@@ -83,24 +84,27 @@ class App extends Component {
         <Header />
 
         <Container style={{ marginTop: '7em' }} textAlign='center'>
-          <Route exact path='/'
-            render={() =>
-              <Main
-                {...this.state}
-                shelfs={shelfs}
-                handleChangeShelf={this.handleChangeBookShelf} />
-            } />
+          <Switch>
+            <Route exact path='/'
+              render={() =>
+                <Main
+                  {...this.state}
+                  shelfs={shelfs}
+                  handleChangeShelf={this.handleChangeBookShelf} />
+              } />
 
-          <Route path='/search'
-            render={() =>
-              <Search
-                shelfs={shelfs}
-                {...this.state}
-                loading={loading}
-                handleChangeShelf={this.handleChangeBookShelf}
-              />
-            }
-          />
+            <Route exact path='/search'
+              render={() =>
+                <Search
+                  shelfs={shelfs}
+                  {...this.state}
+                  loading={loading}
+                  handleChangeShelf={this.handleChangeBookShelf}
+                />
+              }
+            />
+            <Route component={NotFound} />
+          </Switch>
         </Container>
       </div>
     )
