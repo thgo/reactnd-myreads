@@ -15,6 +15,9 @@ class Search extends Component {
     query: ''
   }
 
+  /**
+  * Seta no state os dados inseridos no campo de pesquisa
+  **/
   onChangeText = event => {
     this.setState({
       query: event.target.value,
@@ -24,9 +27,7 @@ class Search extends Component {
     this.filterBooks(this.state.query)
   }
 
-  filterBtnBooks = event => {
-    event.preventDefault()
-
+  handleSubmitForm = () => {
     const { query } = this.state
 
     this.setState({
@@ -36,6 +37,12 @@ class Search extends Component {
     this.filterBooks(query)
   }
 
+  /**
+  * Método para filtrar os livros utilizando a API fornecida.
+  * Se a pesquisa for vazia, a chamada à api não ocorrerá.
+  * A resposta da pesquisa será tratada para verificar se o livro retornado já está adicionado á
+  * alguma prateleira do usuário, se estiver, a propriedade 'shelf' será adicionada ao mesmo.
+  **/
   filterBooks = (query) => {
     this.setState({ books: [], error: false })
     let shelfBook
@@ -88,7 +95,7 @@ class Search extends Component {
       <Container textAlign='left'>
         <BackButton />
 
-        <Form autoComplete='off' error={this.state.error} loading={isLoading} onSubmit={this.filterBtnBooks} style={{width: '100%', marginTop: '2em', textAlign: 'center'}}>
+        <Form autoComplete='off' error={this.state.error} loading={isLoading} onSubmit={this.handleSubmitForm} style={{width: '100%', marginTop: '2em', textAlign: 'center'}}>
           <DebounceInput
               className='ui input'
               placeholder="Enter search..."

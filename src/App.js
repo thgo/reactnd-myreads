@@ -9,18 +9,6 @@ import * as BooksAPI from './api/BooksAPI'
 import { shelfs } from './config/shelfs'
 import NotFound from './components/notfound/NotFound'
 
-/**
- * A fazer
- * Configurar lista de botões na tela de search, para marcar com a cor o item quando for adicionado em alguma categoria;
- *
- * Não recarregar a lista de books ao colocar o livro na tela de search
- *
- * Details, na tela de search não pode mandar pra tela inicial, tem que voltar pra search e com a lista preenchida
- *
- * alterar botão do details no book card
- *
- * Fazer testes
- */
 class App extends Component {
 
   state = {
@@ -31,6 +19,9 @@ class App extends Component {
     loading: false
   }
 
+  /**
+  * Busca todos os livros que estão associados a alguma prateleira do usuário.
+  **/
   componentDidMount() {
     BooksAPI.getAll()
     .then((res) => {
@@ -38,6 +29,10 @@ class App extends Component {
     })
   }
 
+  /**
+  * Manipula a mudança de prateleira dos livros, atualizando o state da aplicação
+  * e usando o método update, da API para atualizar a prateleira, no servidor.
+  **/
   handleChangeBookShelf = (book, newShelf) => {
     this.setState({ loading: true })
 
@@ -50,6 +45,9 @@ class App extends Component {
     })
   }
 
+  /**
+  * Atualiza as listas do state, filtrando os livros de cada categoria
+  **/
   updateState(books) {
     this.setState({
       books,
@@ -60,6 +58,9 @@ class App extends Component {
     })
   }
 
+  /**
+  * Ordena os livros por ordem alfabética do título, dentro das prateleiras
+  **/
   filterShelf = (list, shelf) => {
     if (!list)
       return []
