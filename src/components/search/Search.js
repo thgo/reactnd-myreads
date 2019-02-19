@@ -18,7 +18,7 @@ class Search extends Component {
   onChangeText = event => {
     this.setState({
       query: event.target.value,
-      isLoading: true
+      isLoading: event.target.value !== ''
     })
 
     this.filterBooks(this.state.query)
@@ -38,20 +38,41 @@ class Search extends Component {
 
   filterBooks = (query) => {
     this.setState({ books: [], error: false })
-    BooksAPI.search(query)
-    .then((res) => {
-      console.log(res)
-      this.setState({
-        books: res.error ? res.items : res,
-        error: res.error ? true : false,
-        isLoading: false
+    let shelfBook
+
+    if (query !== '') {
+      BooksAPI.search(query.trim())
+      .then((res) => {
+
+        if (res && res.length) {
+           res.forEach((book) => {
+            shelfBook = this.getShelfFromBook(book.id)
+            if (shelfBook) {
+              book.shelf = shelfBook
+            }
+          })
+        }
+
+        this.setState({
+          books: res.error ? res.items : res,
+          error: res.error ? true : false,
+          isLoading: false
+        })
       })
-    })
-    .catch((res) => this.setState({
-      isLoading: false,
-      error: true,
-      errorMessage: res
-    }))
+      .catch((res) => this.setState({
+        isLoading: false,
+        error: true,
+        errorMessage: res
+      }))
+    }
+  }
+
+  getShelfFromBook = bookID => {
+    const { books } = this.props
+    const book = books.filter(book => book.id === bookID)
+    if (book[0])
+      return book[0].shelf
+    return undefined
   }
 
   isEmptySearch = () => {
@@ -60,30 +81,28 @@ class Search extends Component {
 
   render() {
 
-    const { shelfs, loading, updateBookShelf } = this.props
+    const { shelfs, loading, handleChangeShelf } = this.props
     const { books, isLoading } = this.state
 
     return (
       <Container textAlign='left'>
         <BackButton />
 
-        <Form autoComplete='off' error={this.state.error} loading={isLoading} onSubmit={this.filterBtnBooks} style={{width: '100%', marginTop: '2em'}}>
-          <Form.Group>
-            <DebounceInput
-                className='ui input'
-                placeholder="Enter search..."
-                onChange={this.onChangeText}
-                value={this.state.query}
-                minLength={1}
-                debounceTimeout={500}
-            />
-          </Form.Group>
+        <Form autoComplete='off' error={this.state.error} loading={isLoading} onSubmit={this.filterBtnBooks} style={{width: '100%', marginTop: '2em', textAlign: 'center'}}>
+          <DebounceInput
+              className='ui input'
+              placeholder="Enter search..."
+              onChange={this.onChangeText}
+              value={this.state.query}
+              minLength={1}
+              debounceTimeout={500}
+          />
+          { books && books.length > 0 && <p className='small'>{books.length} results found.</p> }
           <Message
             error
             header='Search error'
             content='No items found.'
           />
-
         </Form>
 
         {books &&
@@ -91,7 +110,7 @@ class Search extends Component {
             books={books}
             shelfs={shelfs}
             loading={loading}
-            handleChangeShelf={updateBookShelf}/>
+            handleChangeShelf={handleChangeShelf}/>
         }
       </Container>
     )

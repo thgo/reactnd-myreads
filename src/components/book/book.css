@@ -1,0 +1,13 @@
+.book-card {
+  height: 380px;
+}
+
+.book-card > img {
+  width: 128px;
+  height: 192px;
+  margin: 0 auto;
+}
+
+.book-card-content {
+  overflow: auto;
+}

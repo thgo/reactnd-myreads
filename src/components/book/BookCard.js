@@ -1,16 +1,13 @@
 import React from "react"
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import { Card, Image, Rating } from "semantic-ui-react";
 import Options from '../options/Options'
+import ModalDetails from "../search/ModalDetails";
+import './book.css'
 
 const BookCard = props => {
 
   const { book, shelfs, handleChangeShelf, loading } = props
-
-  const handleChangeShelfOptions = (book, newShelf) => {
-    handleChangeShelf(book, newShelf)
-  }
 
   const getThumbnail = (book) => {
     if (book && book.imageLinks && book.imageLinks.smallThumbnail) {
@@ -21,36 +18,39 @@ const BookCard = props => {
   }
 
   return (
-    <Card className="text-center" style={{height: '380px'}}>
-      <Image src={ getThumbnail(book) } style={{width: '50%', margin: '0 auto', height: '200px'}} />
-      <Card.Content>
+    <Card className="text-center book-card" >
+      <Image src={ getThumbnail(book) } />
+      <Card.Content className='book-card-content'>
         <Card.Header>{book.title}</Card.Header>
         <Card.Meta>
           { <span className="small text-muted"> {book.authors ? book.authors.join(', ') : 'Author not informed'} </span> }
         </Card.Meta>
       </Card.Content>
       <Card.Description>
-        <Rating icon='star' defaultRating={book.averageRating} maxRating={5} disabled />
+        <Rating icon='star' defaultRating={book.averageRating} maxRating={5} disabled title={`Rating: ${book.averageRating ? book.averageRating : 0 }`} />
       </Card.Description>
       <Card.Content extra>
-        <Link
-          to={`/book/${book.id}`}
-          className="btn btn-outline-info">
-            Details
-        </Link>&nbsp;
+        <ModalDetails book={book} thumbnail={getThumbnail(book)} />
+        &nbsp;
         <Options
           shelf={ book.shelf ? book.shelf : 'none' }
           shelfs={shelfs}
           book={book}
           loading={loading}
-          handleChangeShelf={handleChangeShelfOptions} />
+          handleChangeShelf={handleChangeShelf} />
       </Card.Content>
     </Card>
   )
 }
 
+BookCard.defaultProps = {
+  isLoading: false
+}
+
 BookCard.propTypes = {
-  book: PropTypes.object.isRequired
+  book: PropTypes.object.isRequired,
+  shelfs: PropTypes.array.isRequired,
+  handleChangeShelf: PropTypes.func.isRequired
 }
 
 export default BookCard

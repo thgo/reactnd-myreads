@@ -1,41 +1,15 @@
-import React, { Component } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { Card, Header, Container, Image } from 'semantic-ui-react';
-import * as BooksAPI from '../../api/BooksAPI'
-import { Link } from 'react-router-dom'
 
-class BookDetails extends Component {
+const BookDetails = props => {
 
-  state = {
-    book: undefined,
-    isLoading: false
-  }
-
-  componentDidMount() {
-    console.log('componentDidMount BookDetails')
-    this.setState({ isLoading: true })
-
-    const { id } = this.props.match.params
-
-    BooksAPI.get(id)
-    .then((res) => {
-      console.log('res: ' + res)
-      this.setState({
-        book: res,
-        isLoading: false
-      })
-    })
-  }
-
-  render () {
-    const { book } = this.state
-
-    //TODO: refact this and discover the error and why book is undefined in the first component call
-    if (!book) return <div>TESTE</div>
+    const { book, thumbnail } = props
 
     return (
       <Card fluid>
         <Card.Content textAlign='center'>
-          <Image src={book.imageLinks.thumbnail} size='small' rounded />
+          <Image src={thumbnail} size='small' rounded />
           <Header as='h2' icon textAlign='center'>
             <Header.Content>{book.title}</Header.Content>
           </Header>
@@ -46,14 +20,15 @@ class BookDetails extends Component {
               <p><strong>Author(s):</strong> {book.authors && book.authors.join(', ')}</p>
               <p><strong>Page number:</strong> {book.pageCount}</p>
             </div>
-
-            <Link to="/" className="ui button primary" style={{float: 'right'}}>Back</Link>
           </Container>
         </Card.Content>
       </Card>
     )
-  }
 
+}
+
+BookDetails.propTypes = {
+  book: PropTypes.object.isRequired
 }
 
 export default BookDetails

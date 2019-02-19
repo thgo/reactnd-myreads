@@ -1,29 +1,27 @@
 import React, { Component } from "react"
 import { Popup, Button } from "semantic-ui-react"
-import ButtonOption from './ButtonOption'
 
-class Options extends Component{
+class Options extends Component {
 
   state = {
-    newShelf: ''
+    currentShelf: ''
   }
 
   /**
    * Get the color of selected shelf
    */
   handleButtonColor = thisShelf => {
-    const { shelf } = this.props
-    if (!shelf) return 'grey'
-
-    return shelf === thisShelf.name ? 'green' : 'grey'
+    const { currentShelf } = this.state
+    if (!currentShelf) return 'grey'
+    return currentShelf === thisShelf.name ? 'green' : 'grey'
   }
 
   /**
    * Check if the current shelf is the same as the button, if true, disables it
    */
   handleDisableButton = thisShelf => {
-    const { shelf } = this.props
-    return shelf === thisShelf.name
+    const { currentShelf } = this.state
+    return currentShelf === thisShelf.name
   }
 
   /**
@@ -34,9 +32,13 @@ class Options extends Component{
     event.preventDefault()
     const { handleChangeShelf } = this.props
 
-    this.setState({ newShelf })
+    this.setState({ currentShelf: newShelf })
 
     handleChangeShelf(book, newShelf)
+  }
+
+  handleOpenPopup = (shelf) => {
+    this.setState({ currentShelf: shelf ? shelf : 'none' })
   }
 
   render() {
@@ -44,16 +46,18 @@ class Options extends Component{
     const { shelfs, book, loading } = this.props
 
     return (
-      <Popup wide trigger={<Button primary icon='cog' />} on='click'>
+      <Popup wide trigger={<Button primary icon='cog' title='Options' onClick={() => this.handleOpenPopup(book.shelf)} />} on='click'>
         <Button.Group vertical labeled icon>
-          {shelfs && shelfs.map(s => (
-            <ButtonOption key={s.name}
-              color={this.handleButtonColor(s)}
-              disabled={this.handleDisableButton(s)}
-              shelf={s}
-              book={book}
-              loading={loading && s.name === this.state.newShelf}
-              handleChangeShelf={this.handleChangeShelfButton}
+          {shelfs && shelfs.map(shelf => (
+            <Button
+              key={shelf.id}
+              icon='check circle'
+              name={shelf.name}
+              loading={ loading && shelf.name === this.state.currentShelf }
+              color={this.handleButtonColor(shelf)}
+              disabled={this.handleDisableButton(shelf)}
+              content={shelf.title}
+              onClick={(event) => this.handleChangeShelfButton(event, book, shelf.name)}
             />
           ))}
         </Button.Group>

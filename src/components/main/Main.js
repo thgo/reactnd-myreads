@@ -3,7 +3,7 @@ import Shelf from '../shelf/Shelf';
 
 const Main = props => {
 
-  const { shelfs, loading } = props
+  const { shelfs, loading, handleChangeShelf } = props
 
   return (
     <div>
@@ -15,7 +15,7 @@ const Main = props => {
             title={shelf.title}
             shelfs={shelfs}
             loading={loading}
-            handleChangeShelf={props.updateBookShelf} />
+            handleChangeShelf={handleChangeShelf} />
         ))
       }
     </div>

@@ -5,7 +5,6 @@ import { Container } from 'semantic-ui-react'
 import Header from './components/header/Header'
 import Main from './components/main/Main'
 import Search from './components/search/Search'
-import BookDetails from './components/book/BookDetails'
 import * as BooksAPI from './api/BooksAPI'
 import { shelfs } from './config/shelfs'
 
@@ -38,7 +37,7 @@ class App extends Component {
     })
   }
 
-  updateBookShelf = (book, newShelf) => {
+  handleChangeBookShelf = (book, newShelf) => {
     this.setState({ loading: true })
 
     BooksAPI.update(book, newShelf)
@@ -89,19 +88,19 @@ class App extends Component {
               <Main
                 {...this.state}
                 shelfs={shelfs}
-                updateBookShelf={this.updateBookShelf} />
+                handleChangeShelf={this.handleChangeBookShelf} />
             } />
 
           <Route path='/search'
             render={() =>
               <Search
                 shelfs={shelfs}
+                {...this.state}
                 loading={loading}
-                updateBookShelf={this.updateBookShelf}
+                handleChangeShelf={this.handleChangeBookShelf}
               />
             }
           />
-          <Route path='/book/:id' component={BookDetails} />
         </Container>
       </div>
     )
