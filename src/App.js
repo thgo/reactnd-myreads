@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './App.css'
 import { Route, Switch } from 'react-router-dom'
-import { Container } from 'semantic-ui-react'
+import { Container, Dimmer, Loader } from 'semantic-ui-react'
 import Header from './components/header/Header'
 import Main from './components/main/Main'
 import Search from './components/search/Search'
@@ -16,12 +16,17 @@ class App extends Component {
     currentlyReading: [],
     wantToRead: [],
     read: [],
-    loading: false
+    loading: false,
+    loadingData: false
   }
 
   /**
   * Busca todos os livros que estão associados a alguma prateleira do usuário.
   **/
+  componentWillMount() {
+    this.setState({loadingData : true})
+  }
+
   componentDidMount() {
     BooksAPI.getAll()
     .then((res) => {
@@ -54,7 +59,8 @@ class App extends Component {
       currentlyReading: this.filterShelf(books, 'currentlyReading'),
       wantToRead: this.filterShelf(books, 'wantToRead'),
       read: this.filterShelf(books, 'read'),
-      loading: false
+      loading: false,
+      loadingData: false
     })
   }
 
@@ -78,10 +84,13 @@ class App extends Component {
 
   render() {
 
-    const { loading } = this.state
+    const { loading, loadingData } = this.state
 
     return (
       <div>
+        <Dimmer active={loadingData}>
+          <Loader>Loading</Loader>
+        </Dimmer>
         <Header />
 
         <Container style={{ marginTop: '7em' }} textAlign='center'>
