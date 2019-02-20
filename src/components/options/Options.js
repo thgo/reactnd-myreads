@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import PropTypes from 'prop-types'
 import { Popup, Button } from "semantic-ui-react"
 
 class Options extends Component {
@@ -8,7 +9,9 @@ class Options extends Component {
   }
 
   /**
-   * Get the color of selected shelf
+   * Recupera a cor de acordo com a prateleira selecionada;
+   * Green = Prateleira que o livro está associada
+   * Grey = Outras prateleiras
    */
   handleButtonColor = thisShelf => {
     const { currentShelf } = this.state
@@ -17,7 +20,8 @@ class Options extends Component {
   }
 
   /**
-   * Check if the current shelf is the same as the button, if true, disables it
+   * Checa se a prateleira em que o livro está é igual à que está sendo passada por parâmetro,
+   * caso positivo, desabilita a mesma.
    */
   handleDisableButton = thisShelf => {
     const { currentShelf } = this.state
@@ -25,18 +29,22 @@ class Options extends Component {
   }
 
   /**
-   * Set the newShelf in the state, for loading property.
-   * Call the method handleChangeShelf
+   * Atualiza a prateleira atual no state, para correto funcionamento do loading
+   * e chama a função passada por parâmetro, para que o componente pai lide corretamente
+   * com a requisição.
    */
   handleChangeShelfButton = (event, book, newShelf) => {
     event.preventDefault()
     const { handleChangeShelf } = this.props
-
     this.setState({ currentShelf: newShelf })
-
     handleChangeShelf(book, newShelf)
   }
 
+  /**
+   * Atualiza a estante atual quando clica no botão options.
+   * Caso a página seja a Search, shelf não vai existir se o livro não estiver em nenhuma prateleira,
+   * então, é retornado o default none
+   */
   handleOpenPopup = (shelf) => {
     this.setState({ currentShelf: shelf ? shelf : 'none' })
   }
@@ -46,7 +54,7 @@ class Options extends Component {
     const { shelfs, book, loading } = this.props
 
     return (
-      <Popup wide trigger={<Button primary icon='cog' title='Options' onClick={() => this.handleOpenPopup(book.shelf)} />} on='click'>
+      <Popup wide trigger={<Button color='blue' circular icon='cog' title='Options' onClick={() => this.handleOpenPopup(book.shelf)} />} on='click'>
         <Button.Group vertical labeled icon>
           {shelfs && shelfs.map(shelf => (
             <Button
@@ -64,6 +72,16 @@ class Options extends Component {
       </Popup>
     )
   }
+}
+
+Options.defaultProps = {
+  loading: false
+}
+
+Options.propTypes = {
+  handleChangeShelf: PropTypes.func.isRequired,
+  shelfs: PropTypes.array.isRequired,
+  book: PropTypes.object.isRequired
 }
 
 export default Options

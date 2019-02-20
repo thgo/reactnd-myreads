@@ -9,5 +9,5 @@
 }
 
 .book-card-content {
-  overflow: auto;
+  overflow: hidden;
 }

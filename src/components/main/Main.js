@@ -1,5 +1,6 @@
 import React from 'react'
-import Shelf from '../shelf/Shelf';
+import PropTypes from 'prop-types'
+import Shelf from '../shelf/Shelf'
 
 const Main = props => {
 
@@ -20,6 +21,15 @@ const Main = props => {
       }
     </div>
   )
+}
+
+Main.defaultProps = {
+  loading: false
+}
+
+Main.propTypes = {
+  shelfs: PropTypes.array.isRequired,
+  handleChangeShelf: PropTypes.func.isRequired
 }
 
 export default Main

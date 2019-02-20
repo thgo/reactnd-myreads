@@ -1,9 +1,11 @@
-import React, { Component } from "react";
-import { Form, Message, Container } from "semantic-ui-react";
-import ListBooks from "../book/ListBooks";
+import React, { Component } from "react"
+import PropTypes from 'prop-types'
+import { Form, Message, Container } from "semantic-ui-react"
+import ListBooks from "../book/ListBooks"
 import * as BooksAPI from '../../api/BooksAPI'
 import BackButton from './BackButton'
-import { DebounceInput } from 'react-debounce-input';
+import { DebounceInput } from 'react-debounce-input'
+import './search.css'
 
 class Search extends Component {
 
@@ -29,6 +31,8 @@ class Search extends Component {
 
   handleSubmitForm = () => {
     const { query } = this.state
+
+    if (query === '') return
 
     this.setState({
       isLoading: true
@@ -74,16 +78,16 @@ class Search extends Component {
     }
   }
 
+  /**
+   * Passa o ID do livro retornado da pesquisa e verifica se ele está associado a alguma
+   * prateleira, se tiver, retorna a prateleira do mesmo, caso contrário, retorna undefined.
+   */
   getShelfFromBook = bookID => {
     const { books } = this.props
     const book = books.filter(book => book.id === bookID)
     if (book[0])
       return book[0].shelf
     return undefined
-  }
-
-  isEmptySearch = () => {
-    return this.state.query === ''
   }
 
   render() {
@@ -95,9 +99,8 @@ class Search extends Component {
       <Container textAlign='left'>
         <BackButton />
 
-        <Form autoComplete='off' error={this.state.error} loading={isLoading} onSubmit={this.handleSubmitForm} style={{width: '100%', marginTop: '2em', textAlign: 'center'}}>
+        <Form autoComplete='off' error={this.state.error} loading={isLoading} onSubmit={this.handleSubmitForm} className='form-search'>
           <DebounceInput
-              className='ui input'
               placeholder="Enter search..."
               onChange={this.onChangeText}
               value={this.state.query}
@@ -124,4 +127,13 @@ class Search extends Component {
   }
 }
 
-export default Search;
+Search.defaultProps = {
+  loading: false
+}
+
+Search.propTypes = {
+  shelfs: PropTypes.array.isRequired,
+  handleChangeShelf: PropTypes.func.isRequired
+}
+
+export default Search

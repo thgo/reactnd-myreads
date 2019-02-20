@@ -1,6 +1,6 @@
 import React from "react"
 import ListBooks from "../book/ListBooks"
-import { Card } from "semantic-ui-react";
+import { Card } from "semantic-ui-react"
 
 const Shelf = props => {
 
@@ -24,7 +24,7 @@ const Shelf = props => {
               loading={loading}
               handleChangeShelf={handleChangeShelf} />
           }
-          {(!books || books.length === 0) && <div>No items found</div>}
+          {(!books || books.length === 0) && <div>No books found</div>}
         </Card.Content>
       </Card>
     }

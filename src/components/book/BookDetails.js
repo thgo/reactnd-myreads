@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Header, Container, Image } from 'semantic-ui-react';
+import { Card, Header, Container, Image } from 'semantic-ui-react'
 
 const BookDetails = props => {
 
@@ -28,7 +28,8 @@ const BookDetails = props => {
 }
 
 BookDetails.propTypes = {
-  book: PropTypes.object.isRequired
+  book: PropTypes.object.isRequired,
+  thumbnail: PropTypes.string.isRequired
 }
 
 export default BookDetails

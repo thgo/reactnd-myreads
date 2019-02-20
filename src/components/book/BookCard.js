@@ -1,8 +1,8 @@
 import React from "react"
 import PropTypes from 'prop-types'
-import { Card, Image, Rating } from "semantic-ui-react";
+import { Card, Image, Rating } from "semantic-ui-react"
 import Options from '../options/Options'
-import ModalDetails from "../search/ModalDetails";
+import ModalDetails from "../search/ModalDetails"
 import './book.css'
 
 const BookCard = props => {
@@ -13,7 +13,7 @@ const BookCard = props => {
     if (book && book.imageLinks && book.imageLinks.smallThumbnail) {
       return book.imageLinks.smallThumbnail
     } else {
-      return 'no-image.png'
+      return 'no-image.svg'
     }
   }
 
