@@ -105,7 +105,7 @@ class Search extends Component {
               onChange={this.onChangeText}
               value={this.state.query}
               minLength={1}
-              debounceTimeout={500}
+              debounceTimeout={400}
           />
           { books && books.length > 0 && <p className='small'>{books.length} results found.</p> }
           <Message
@@ -115,7 +115,7 @@ class Search extends Component {
           />
         </Form>
 
-        {books &&
+        {books && books.length > 0 &&
           <ListBooks
             books={books}
             shelfs={shelfs}

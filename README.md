@@ -1,6 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 # MyReads
+
 ## Visão geral do projeto
 MyReads é o primeiro projeto do Nanodegree React Developer, da [Udacity][1]. O objetivo é desenvolver uma aplicação de estante de livros que permite selecionar e classificar os livros que você já leu, está lendo ou quer ler. O projeto enfatiza o uso de React para criar a aplicação e fornece um servidor de API e uma biblioteca cliente, que você usará para armazenar informações à medida que interage com a aplicação.
 
@@ -20,7 +21,7 @@ Caso não possua, baixe a seguir:
   * npm: https://nodejs.org/en/download/
   * yarn: https://yarnpkg.com/en/docs/install
 
-Para baixar o projeto, seiga as instruções a seguir:
+Para baixar o projeto, siga as instruções a seguir:
 
 ~~~
 git clone https://github.com/thgo/reactnd-myreads.git
@@ -41,7 +42,12 @@ yarn install
 yarn start
 ~~~
 
+# Bibliotecas de terceiros
+
+No desenvolvimento da aplicação, foi utilizada a interface [Semantic-ui][2].
+
 # Autor
 Thiago Leonardo
 
 [1]: https://www.udacity.com/
+[2]: https://react.semantic-ui.com

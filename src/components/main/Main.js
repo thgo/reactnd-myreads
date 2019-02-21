@@ -6,9 +6,13 @@ const Main = props => {
 
   const { shelfs, loading, handleChangeShelf } = props
 
+  const getShelfsToShow = () => {
+    return shelfs.filter(s => s.show)
+  }
+
   return (
     <div>
-      { shelfs && shelfs.map(shelf => (
+      { shelfs && getShelfsToShow().map(shelf => (
           <Shelf
             key={shelf.id}
             color={shelf.color}

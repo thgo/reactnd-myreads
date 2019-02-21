@@ -8,7 +8,6 @@ const Shelf = props => {
 
   return (
     <div>
-    { books &&
       <Card fluid color={color}
         className="text-center"
         style={{ marginBottom: '2em'}}
@@ -27,7 +26,6 @@ const Shelf = props => {
           {(!books || books.length === 0) && <div>No books found</div>}
         </Card.Content>
       </Card>
-    }
     </div>
   )
 }
