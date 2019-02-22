@@ -27,10 +27,15 @@ class App extends Component {
     this.setState({loadingData : true})
   }
 
-  componentDidMount() {
-    BooksAPI.getAll()
-    .then((res) => {
-      this.updateState(res)
+  async componentDidMount() {
+    const books = await BooksAPI.getAll()
+    this.setState({
+      books,
+      currentlyReading: this.filterShelf(books, 'currentlyReading'),
+      wantToRead: this.filterShelf(books, 'wantToRead'),
+      read: this.filterShelf(books, 'read'),
+      loading: false,
+      loadingData: false
     })
   }
 
@@ -41,13 +46,16 @@ class App extends Component {
   handleChangeBookShelf = (book, newShelf) => {
     this.setState({ loading: true })
 
+    const oldShelf = book.shelf
+    book.shelf = newShelf
     BooksAPI.update(book, newShelf)
-    .then(res => {
-      BooksAPI.getAll()
-      .then(res => {
-        this.updateState(res)
-      })
-    })
+
+    this.setState((state) => ({
+      books: state.books.filter(b => b.id === book.id).concat([ book ]),
+      [newShelf]: state[newShelf].concat([ book ]),
+      [oldShelf]: state[oldShelf].filter(b => b.id !== book.id),
+      loading: false
+    }))
   }
 
   /**
