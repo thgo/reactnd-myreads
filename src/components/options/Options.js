@@ -1,20 +1,17 @@
-import React, { Component } from "react"
+import React, { useState, useEffect } from "react"
 import PropTypes from 'prop-types'
 import { Popup, Button } from "semantic-ui-react"
 
-class Options extends Component {
+function Options ({ shelfs, book, loading, handleChangeShelf }) {
 
-  state = {
-    currentShelf: ''
-  }
+  const [currentShelf, setCurrentShelf] = useState(null)
 
   /**
    * Recupera a cor de acordo com a prateleira selecionada;
    * Green = Prateleira que o livro está associada
    * Grey = Outras prateleiras
    */
-  handleButtonColor = thisShelf => {
-    const { currentShelf } = this.state
+  function handleButtonColor (thisShelf) {
     if (!currentShelf) return 'grey'
     return currentShelf === thisShelf.name ? 'green' : 'grey'
   }
@@ -23,8 +20,7 @@ class Options extends Component {
    * Checa se a prateleira em que o livro está é igual à que está sendo passada por parâmetro,
    * caso positivo, desabilita a mesma.
    */
-  handleDisableButton = thisShelf => {
-    const { currentShelf } = this.state
+  function handleDisableButton (thisShelf) {
     return currentShelf === thisShelf.name
   }
 
@@ -33,10 +29,9 @@ class Options extends Component {
    * e chama a função passada por parâmetro, para que o componente pai lide corretamente
    * com a requisição.
    */
-  handleChangeShelfButton = (event, book, newShelf) => {
+  function handleChangeShelfButton (event, book, newShelf) {
     event.preventDefault()
-    const { handleChangeShelf } = this.props
-    this.setState({ currentShelf: newShelf })
+    setCurrentShelf(newShelf)
     handleChangeShelf(book, newShelf)
   }
 
@@ -45,33 +40,40 @@ class Options extends Component {
    * Caso a página seja a Search, shelf não vai existir se o livro não estiver em nenhuma prateleira,
    * então, é retornado o default none
    */
-  handleOpenPopup = (shelf) => {
-    this.setState({ currentShelf: shelf ? shelf : 'none' })
+  function handleOpenPopup (shelf) {
+    setCurrentShelf(shelf ? shelf : 'none')
   }
 
-  render() {
-
-    const { shelfs, book, loading } = this.props
-
-    return (
-      <Popup wide trigger={<Button color='blue' circular icon='cog' title='Options' onClick={() => this.handleOpenPopup(book.shelf)} />} on='click'>
-        <Button.Group vertical labeled icon>
-          {shelfs && shelfs.map(shelf => (
-            <Button
-              key={shelf.id}
-              icon='check circle'
-              name={shelf.name}
-              loading={ loading && shelf.name === this.state.currentShelf }
-              color={this.handleButtonColor(shelf)}
-              disabled={this.handleDisableButton(shelf)}
-              content={shelf.title}
-              onClick={(event) => this.handleChangeShelfButton(event, book, shelf.name)}
-            />
-          ))}
-        </Button.Group>
-      </Popup>
-    )
-  }
+  return (
+    <Popup
+      wide
+      trigger={
+        <Button
+          color='blue'
+          circular
+          icon='cog'
+          title='Options'
+          onClick={() => handleOpenPopup(book.shelf)}
+        />
+      }
+      on='click'
+    >
+      <Button.Group vertical labeled icon>
+        {shelfs && shelfs.map(shelf => (
+          <Button
+            key={shelf.id}
+            icon='check circle'
+            name={shelf.name}
+            loading={ loading && shelf.name === currentShelf }
+            color={handleButtonColor(shelf)}
+            disabled={handleDisableButton(shelf)}
+            content={shelf.title}
+            onClick={(event) => handleChangeShelfButton(event, book, shelf.name)}
+          />
+        ))}
+      </Button.Group>
+    </Popup>
+  )
 }
 
 Options.defaultProps = {
