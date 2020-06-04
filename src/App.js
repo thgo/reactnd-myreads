@@ -51,9 +51,9 @@ class App extends Component {
     BooksAPI.update(book, newShelf)
 
     this.setState((state) => ({
-      books: state.books.filter(b => b.id === book.id).concat([ book ]),
-      [newShelf]: state[newShelf].concat([ book ]),
-      [oldShelf]: state[oldShelf].filter(b => b.id !== book.id),
+      books: state.books?.filter(b => b.id === book.id)?.concat([ book ]),
+      [newShelf]: state[newShelf]?.concat([ book ]),
+      [oldShelf]: state[oldShelf]?.filter(b => b.id !== book.id),
       loading: false
     }))
   }
